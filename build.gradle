@@ -1,0 +1,68 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'pmd'
+apply plugin: 'jacoco'
+
+mainClassName = "com.expedia.www.tnl.main.Main"
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+version = '1.0'
+
+
+run {
+    if ( project.hasProperty("myargs") ) {
+        /* Need to split the space-delimited value in the exec.args */
+        args (myargs.split(" "))
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'http://nexus.sb.karmalab.net/nexus/content/groups/public'
+    }
+}
+
+configurations {
+    compile.exclude module: 'commons-logging'
+}
+
+dependencies {
+
+    // Test
+    compile group: 'junit', name: 'junit', version: '4.11'
+    compile 'org.mockito:mockito-all:1.9.5'
+
+    // Logging
+    compile "org.slf4j:slf4j-api:1.7.2"
+    compile "ch.qos.logback:logback-classic:1.0.9"
+    compile "org.slf4j:jcl-over-slf4j:1.7.2"
+
+    //UIS message
+    compile "org.codehaus.jackson:jackson-mapper-asl:1.9.13"
+    compile "com.expedia.www:exp-user-interaction-messages-v1:1.237"
+
+}
+
+//unit test coverage
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "${buildDir}/reports/jacocoHtml"
+    }
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['com/expedia/www/tnl/models/**','com/expedia/www/tnl/main/**'])
+        })
+    }
+}
+
+//generate reports
+task reports (dependsOn:['check','javadoc'])
