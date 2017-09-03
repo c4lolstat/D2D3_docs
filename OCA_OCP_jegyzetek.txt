@@ -1,0 +1,126 @@
+OCA jegyzetek
+
+1. fejezet
+
+- Period has a reserved meaning in JVM.
+- Java only looks for class names in the package
+- java.lang automatically imported
+- Explicit import > wildcard
+
+- Instance initializers are not in any method
+- Init order: Fields and instance init in order => constructor 
+- by default Java assume you are define an int
+- you can add underscore to numerals 1_0
+
+- legal identifiers: must begin with letter or symbol(_,$), other place number is 	ok, cannot use 	reserved words. 
+- Static keyword => class variable
+- System.gc() not guarantee to run
+- finalize() called only once or none
+- no pointers and operator overload in Java
+
+2. fejezet
+- post unary cames before pre unary operators
+- double logic operators are short circuit operators
+- if two values have different type Java promot to the bigger one
+- automaticali promot integral to floating point
+
+- byte, short, char first promoted to int any time – unnary operators are excluded
+- casting primitive types require when go from large to smaller datatype
+- *=, etc automaticvaly cast the result
+- switch statement not support boolean and long and there wrappers
+- i=i++; => assign the old value
+
+3. fejezet
+- String pool collect all strings literals
+- do not use new String, it is not utiliesing the string pool
+- Stringbuffer is threadsafe
+- Sort order – number, letters, uppercase, lowercase
+
+- string and stringbuffer not comparable with ==
+- String a=”c” a+=2 becames a=a+2 => „c2”
+- array cant change size, but can have multiple dimensions
+- array and arraylist is ordered and have indexes
+
+- neither is immutable, elements can change value
+- array does not override equals so uses object equality
+- arraylist override equals and defines it as same elements in same order
+- dates are immutable
+- period not allow chaining, only the last is considered.
+
+4. fejezet
+- Only 1 vararg at the last place
+- if you do liskow replacement stuf you dont have access to protected methods and variables. For use of protected modifier you have to be on a proper referenc type.
+- Static initializer is first assignment
+- Static variable can be assigned only at declaration or static block
+
+- Calling methods on reference object change the caller
+- access modifiers and exceptions irrelevant for method overloading and return type, and static
+- this() should be first statement
+- init order: super > static > instance param > constructor
+
+- getter for boolean must start with 'is'
+- default constructor added only no constructor was inplemented
+- both instance and static initializer can access a static variable
+
+5. fejezet
+- inherit from finnal class result a compiler error
+- protected and private only for inner classes
+- only one public class per file
+- abstract class and method cannot be final
+
+- abstract cannot be private
+- first subclass of abstract have to implement all methods
+- an interface inherits all abstract methods
+- interface can implement a default method and must be marked with default keyword and implement method body
+
+- java 8 support static methods in interfaces and not inherited
+- casting from sublacc to superclass no need explicit cast
+- casting from superclass to subclacc need explicite cast
+- casting from subclass to subclass no need explicite cast
+
+- private methods always hidden
+- public, protected methods may be overriden nit hidden
+- variables may only be hidden regardless of modifier
+- interface can be use the extend keyword
+- interface variables are assumed to be public static final
+
+6. fejezet
+- runtime exceptions = unchecked exceptions
+- everithing that is not extend runtime exception is checked exception
+- you have to deal with checked exceptions (handle or declare)
+- catch not required if finally present
+- catch superclass exception after subclass
+	
+OCP
+
+Java Class Design
+
+- a function overload is compile time polymorphism
+- Java allow function with the same name as the class
+- when overriding method return type can be subclass (covariant type)
+- use @Override to not hide methods but override  them
+
+- static variable == class variable
+- static block will be invoked when the program init
+- cannot override static method
+- static method cannot use “this” keyword or “super”
+
+- static method cannot acces insrance variable
+- local inner class is in a code block; non-local inner class is in a class
+- inner class accessibilty defined by the outer  class
+- pass only final variable to local inner class
+
+- ENUM has only private constructor
+- interface extends other interface not implements
+- class inheritance : is -a relation
+- interface inheritance: is -like-a relation
+
+- composition has-a-relation
+- inner classes not loaded until referenced
+- without <> (diamond operator) compiler treat as raw (Object class) type
+- raw types bypass type check at compile time
+
+- in generic subtyping does not work, use wildcards instead
+- using wildcard you cant use methods that modify the object
+- hascode should return the same hash if the equls method return true
+- compareto method only good for one property, comparator class as many property as you want

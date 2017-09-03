@@ -1,26 +1,25 @@
 ﻿Data Collections
 
-    Handle collections as object.
+    Handle colelctions as object.
     Java 8 hashmap use self balancing Binarry trees for buckets.
-    Javascript use hash-table as object implementaiton.
+    Javascript use hash-table  as object implementaiton.
     Map load factor < 1 0,75 common. If bigger allocate more bucket.
 
     Iterable {itetator ()} <- Collecion {size()} } <- Queue <- Dequeue
                                                    <- Set <- SortedSet <- NavigatableSet
                                                    <- List
-    Map {keyset(), valueSet()} <- SortedMap <- NavigableMap
+    Map {keyset(), valueSet()} <- SortedMap <- NaviableMap
 
     HashTable
         - key calculated and used to determine which bucket will be used. If there is multiple item in the bucket 
-          equals will be used to decided which item is the searched one.
+          equals will be used to decided whicj item is the searched one.
 
     Queue
         - FIFO
         - priority queue - comparable based
         - linkedlist
 
-    Dequeue
-		- double ended queue
+    Dequeue //TODO differense between queue and dequeue
         - ArrayDequeue
         - LinkedList
 
@@ -126,37 +125,36 @@ OOP Fundamentals
     S - single responsibility (object only one reason to change)
     O - open / closed (no existing code change)
     L - Liskov substitution
-    I - interface segregation (split interfaces, marker interfaces can be used to define data types, runtype)
+    I - interface segregation (split interfaces, marker interfaces can be used to define data types,runtype)
     D - dependency inversion (through polimorphism)
-		
-	Polimorphism
-        - when not important that the method belongs to a parent class or descendant
-        - overload, override (more public, more strick exeptions, use covariant return type)
+
+    Encapsulation
+        - binds together the data and functions => data hiding
 
     Inheritance 
         - is-a reletionship
     
     Composition
         - has-a relationship
-        - object can have another object as a variable
+        - object canhave another object as a variable
         
-    Encapsulation
-        - binds together the data and functions => data hiding
-		
+    Polimorphism
+        - when not important that the method belongs to a parent class or descendant
+        - overload, override (more poblic, more strick exeptions, use covariant return type)
+
     OO adventage: reusable, lose coupled, refactoring, modulizable
 
     Isolate business rules.
     Diamond problem. (Thats why java does not allow multiple inheritance.)
-    Ambstraction help in information hiding. Lose cuopling
+    Ambstraction help in information hiding. Lose cuopleing
 
 
 Layered architecture
 
     Presentation layer
-        - user oriented functions
+        - usernoriented functions
         - bridge pattern between busines logic
-        - can use service layer or business layer directly
-		
+        - cna use service layer or business layer directly
     Service layer ( thats where external services call into. publi API.)
         Business layer
             - implement core functionalities of the system
@@ -167,17 +165,15 @@ Layered architecture
             - expose interfaces to the business layer
         Database    
     Cross cutting conserns go through multiple layers. Serializable for broadcast.
-	
-    Layers can be separated into different tiers or physical location.
-    Layer isolation: lose couple between layer, encapsulation.
+    Layers can be separated intomdifferent tiers or phisival location.
+    Layer isolation:lose couple between layer, encapsulation.
     One way communication: minimize dependencies, eliminate circular referencies, high level to low level comm.
     use events to revert.
 
 
 Effective Java
 
-    Premature optimization
-		- Dont do it, dont do it until you have clear solution,
+    Buildere- Dont do it, dont do it until you have clear solution,
         - dont sacrifice sound architecture,
         - measure before doing it,
         - implementation problems can be fixed later,
@@ -200,7 +196,7 @@ Effective Java
 
     Avoid creating unnecesarry objects
         - use stringbuilder
-        - prefer primitive types to boxed primitives (autoboxing overhead).
+        - prefer primitive types to boxedmprimitives (autoboxing overhead).
     
     Eliminare obsolete obj references
         - sources are cashes, stacks, listeners, callbacks
@@ -210,34 +206,33 @@ Effective Java
     Avoid finalizers
         - never do anything time critical,
         - never ddpend on finalizer
-        - performance penelty to using them.
+        -performance penelty to using them.
 
     Obay general contract when overriding equals
         - reflexive, simmetric, transitive, consistent
         - non null not equals null
         - always override hashcode
-        - if to opject equal they must have the same hashcode
-		- if two object have the same hashcode they may or may not be equal
+        //TODO check contract between hashcode and equal
 
     Override toString
         - when practical should return all interesting information
 
-    Consider implementing comperable
-        - comperable: natural ordering 
+    Considdr implementing comperable
+        - comperable: naturalmordering 
         - retun -1 0 1
         - consistent with equals
 
-    override clone judiciously
+    overrife clone judiciously
         - clonable interface 
         - override is expect to provide a proper functioning public clone íethod
         -incompatible with final fields refering to mutable objects
         - better providing copy or nothing
 
     Dont use raw types in new generic code
-        - with raw types you lose all the type safety and expressiveness benefit of generics
+        - with row types you lose all the type safety and expressiveness benefit of generics
         - you van put only null to "collection<?>"
         - you must use raw types in class literals
-        - type information ereased in runtime.
+        - type informationereased in runtime.
 
     Eliminate unchecked warnings
         - unchecked casts, method invokation, array creation, conversion
@@ -249,10 +244,10 @@ Effective Java
 
     Favour generic types and methods
         - do not use wildcard type as return type
-        - if type parameter appears only once in a method declaration, replace with wildcard
+        - if type parameter appears only once in a method declaration, reőlace with wildcard
 
-    upper bounded wildcards extends <? extends A>
-    lower bounded wildcards super <? super A>
+    upper bounded wildcards extends
+    lower bounded wildcards super
 
 Inheritance
 
@@ -266,15 +261,15 @@ Nested classes / interfaces
 
     Defined inside class or interface
     Benefits: put related classes together, can access all member of enclosing class, increase encapsulation,
-    can lead to more readable code.
+    can lead to more readabl code.
     
     Local class defined within code block. 
     Non-local class defined inside class.
     
     Inner class
-        - cannot declare static member
+        - cennot declare static member
         - has access all of the outer class members
-        - outerClass.innerClass innerObj = outerClass.new innerclass()
+        - outerClass.ennerClass innerObj = outerClass.new innerclass()
         - serialization strongly discouraged
     
     Static nested class
@@ -286,17 +281,17 @@ Nested classes / interfaces
         - can declare everywhere (for, if, cosnstructor)
         - accessing all members of the enclosing class
         - access to local variables only if they are final
-        - cannot declare static member
+        - cennot declare static member
         - can have constant variables
         - Not member of outer class
         - Can pass only final variables. 
         - Cannot define interface inside method.
     
-    Anonnymous inner class
+    Anonnimous inner class
         - declare and instantate the class at the same time
         - cannot have explicit constructor, 
         - implicitly extends base class, 
-        - return new annonymclass (){}
+        - return new anonimclass (){}
 
                       static      non-static             annonymus
     non-local   static nested     inner class               x
@@ -313,15 +308,15 @@ Exceptions
     - checked for recovery, runtime exc. for programming errors
     - favor standard exceptions
 
-    try-with-recource
+    try-witth-recource
         - compiler automatically translate it to try-finally,
         - you can aquire multiple recource in the block.    
 
     types:
 
-    obj->throwable -> error (no point to catch them, abnormal condition, jwm errors)
+    obj->throwable -> error (no point to catch them, abnormalcondition, jwm errors)
                    -> exception (base class of checked exceptions) -> runtime (base class for programing errors)
-    Bad practice to extend error or throwable. Should extend exception or runtimeException
+    Bad practice to extend error or throughable. Should extend exception or runtimeException
                
 
 Refactoring
@@ -671,3 +666,254 @@ Generics
     Upper bounded always extends
     
     Lower bound wildcards restrict the type to be type or super type. Lower bound alwys super.
+	
+2017-07	
+	
+Domain Driven Design
+	
+	Develop software for complex needs by  deeply connecting the implementation to the model of core business concepts.
+	
+	- Place the project focus on the core domain and logic,
+	- base complex design on a model,
+	- initiate creative collaboration between tech and domain experts.
+	
+	Model: System of abstracation that describes selescted aspect ao a domain and can be  used to solve problems related 
+		to the domain.
+	Ubiquitous language: Language structured around the domain model and used by all team member.
+	Bounded context: Explicitly define the context within model (org, team, code ba se, db schemas). Keep the model 
+		strictly consistentwithin boundaries.
+	Entity: Defined by a thread of continuity and identity.
+	Value object: Contain attributes but have no conceptual identity
+	Aggregate: Collection of obejcts that are bounded together by a root entity.
+	Repository: Methods for retrieveing domain objects should be delegated to a specialized repository object.
+	Factory: Methods for creating domain ojects should be delegated to sepcific factory object.
+	Anti-corruption layer: Bounded context use the service of another one, but aim to minimize impact of changes by
+		intruducing a set of adapters -> anti-corruption layer.
+		
+Architectural patterns
+
+	- Layered architecture,
+	- event driven,
+	- mikro-kernel
+	- mikroservice,
+	- space based.
+	
+	Architectural patterns are reusable solutions to common promlems. Simiéar to design patterns, but have broader scope.
+		Address issues like: hardware limitation, high availability, mimimize business risk, celar / smaller
+		
+	EDA (event driven architecture): Promoting events. Event occure, notify message travel. Used between loosly cooplead
+		components and services. More normalized to async and unpredictible environment.
+		
+	Microservices: Fine-gread services and lightweight protocols. Improves modularity, easier to understand. Paralel development.
+		Enable continousl development and deployment.
+		
+	SOA (service oriented architecture): A service is a discrete unit of funtionality, that can be accessed remotely. 
+		Service: self contained, represents business activity with black box for customer, may consist of underlaying services.
+		Promote lose coupling. Can be implemented with web services.
+		
+	Space-based architecture: For linear scalability of stateful applications (high performance). Application is built out of
+		processing units. They are independent and can scale by adding the.
+	
+	Centralized messaging topology: Consist of large data center, hosting all server resourcies (domain controller, exchange
+		servers, catalog server). Softwaare upgrade can be rolled out from centralized location. Uninterruptatble power source,
+		hot / cold site.
+		
+SOA and Microservices antipatterns
+
+	Autgenerated stovepipe: Occourse when migrating an existing sw sstem to a distributes infrastructure. Convert existing inter-
+		faces to distributed interfaces
+	
+	Stovepipe enterprise: SW structure that inhibits change. LAck of coordination and plannig across a set of systems.
+	
+	Stovepipe system: Subsystems are integrated in an addhoc manner, using multiple strategies. 
+	
+	Jumble?: Horizontal and vertical design elements are intermixed. //TODO what is horizontal, veritcal design elements
+
+	Cover your assests: Document driven sw process often produce less-then-usefull requirement and specification. The author
+		evade making important decisions.
+		
+	Vendor lock in: Highly dependant upon proprietory architecture //TODO so vwhat?
+	
+	Design by comitee: Creates overly complex architecture, that lack coherence.
+	
+	Reinvent the wheel: Lack of techology transfer between project leads. Design knowledge is burried on legacy assets.
+	
+Basic algorithms
+	
+	Big O notation: Classify algorithms according how their runnig time or space requirements grow as the input size grow.
+		O(1) constant, O(logn) logaritmic, O(n) linear
+		
+	Divede and conqurer alg.: Based on multibranched recoursion. reqursivly breaking down problem into sub problems of the 
+	same type, until easy to solve. Sorting multiply large numbers, FFT.
+	
+	Randomized alg.: Employes a degree of  randomness as part o the logic, (Monte Carlo sim.)
+	
+	Quicksort: 2-3 times faster the merge or heapsort. comparison sort, can be any type with less-than relation. Can operate
+		in place on an array, require small addition of memory. worst case O(n^2). Devide and Conq.
+		
+	Mergesort: Efficient comparison-based sorting. Devide into 1 element merge them repetadly to produce new sorted sublist 
+		until 1 list remain.
+		
+	Greedy alg.: Locally optimize choise at each stage to hope find global optimum.
+	
+Multithread
+
+	Thread vs process: Threads run in a shared memory space while processes run is separeted memory spaces. Thread is a sub-
+		set of process. Process consist of multiple threads. Process use interprocess communication. Process does not have 
+		control of sibling processes, threads does.
+		
+	Thread types: JVM will wait for every user thread to finish before shut down. Deamon (low priority, suitable for 
+		non-critical jobs) can be terminated. Normal thread created from main thread. Deamon need to call setdeamon() 
+		JVM create deamons (fe. GC)
+		
+	Benefits of multiple threads: 
+		- Improve performanc and concurency,
+		- simplified coding for remote procedure calls,
+		- simultaniosly access to multiple apps,
+		- reduce number of required servers.
+		
+	Risks:
+		- Difficult to write code,
+		- difficult to debug, testing,
+		- difficult to porting existing code,
+		- difficult managing concurency.
+		
+	Safty hazards:
+		- race conditions: output depends on sequence or timing of uncontroled events.
+	
+	Liveness hazards:
+		- deadlock: each member of a gruop is waiting for some other member  to realies lock.
+		- livelock: ??
+		- starvation: ??
+		
+	Performance hazards:
+		- Poor service times,
+		- resposivness,
+		- scalability,
+		- resource consumption,
+		- througput.
+		
+	Define and start threads: 
+		- Provide runnable object (interface with run method) this passed to a tunnable constructor,
+		- Subclass thread, provide own implementation of run method.
+		- Both should inivoke thread.start()
+		
+	Terminate/interrupt thread:
+		- Interrupt is indacate that thread should stopand do something else. A thread sends interrupt by invoking 
+		"interrupt" on thread object. Thread must support its own interrupts (internal flag, getter/setter)
+		- Terminate, internally (return or run ends), externally (system exit, interrupt, kill or stop(), thread 
+		interrupt exception)
+		
+	Thread scheduler: Part of the JVM or OS
+		- Java does not force VM to schedule threads in a specific manner (platform dependent)
+		- You only need to think about how java schedule threads only atleast one your program is thread heavy.
+		- Thread states: initial-runnable-blocked-terminated
+		
+	Set thread priority: Number between 1-10. (preemptive scheduling = by priority) Norm priority = 5, min =1 max=10
+		Highly important stuffs can be done on a synhronised way.
+	
+	Thread gruops: Group thread in a single object. Suspend, resume, interrupt with a single method call.
+		Join method, wait 1 thread after start another.
+		
+	Syncronized: Lock object for any shared resources, auto aquires the lock and relase it. 
+	
+	Volatile: Garanties visibility of changes accross threads. Prevent cashing (L2-L3)
+	
+	Final: Force compiler to complie initilization for that field, before constructor compile.
+	
+	Thread states:
+		New: Creste instance of thread class before start.
+		Runnable: After invoking start(), but scheduler not selected yet.
+		Running: Thread scheduler select it.
+		Non-Runnable(blocked): Alive nut notelegate to run.
+		Terminated: Dead/terminated, run() exit.
+		
+	Join(): Currently running thread stops execute until the thread it joins completes.
+	Yield(): Currently running thread to yield to any other threads of same priority that are waiting to be scheduled.
+	
+	Sleep use CPU, waiting yield is platform dependent.
+	
+	wait/notify/notify all: Its for thread syncronization, observer like.
+	
+	Interrupted Exception: In java, cancellation of running thread is cooperative. It is for non-runnable stateed threads
+		Should get out of the way as soon as possible. Handle strategies:
+			- Rethrow: classes which implement blocking operations
+			- Catch, restore, terminate: Classis inplement an existing interface (restore flag)
+			- catch, terminate: subclass of thread
+			
+	Shutdwown hook:When VM shut down it will start all registered shutdown hook. When all finish run all uninvoked finalizers
+		(if enabled) finally halt VM. Perform cleanup resource or save state when VM shuts down normally. (strl+C, System.exit())
+		
+	Java.util.concurrent: small standardized framework. Parts: executors, queues, timing, synchronizers, collections, 
+		memory consistency properties. Used as buildong blocks for creating concurent classes or applications. Expose
+		low-level Compare-and-swap (CAS) hardware instructions.
+		
+	Executor framework: Interface for definfing cosutm thread-like subsystems. Executor service manages queues, schedule 
+		tasks and shutdown (await termination, shutdown, isShutDowns). Multiple concrate class implementatioins. Task 
+		submission is decoupled from task execution policy. Get executor through factory.
+		
+	Future pattern: Represent the result of an asyncron computation. Methods for check the computation is complate and retrive
+		result. Cancellable. Can be blocking.
+	
+	Completition service: Decouples the production of asyncron tasks from consumption of the results. Producers submit tasks,
+		consumers take completed and process their results.
+		
+	Lock: syncronization mechanism more sophistcated then synchronized blocks. It is an interface ->
+		has framework.
+	
+	Reentrant lock: Owned by the thread, which successfully locked, but not unlocked. Return immedietlyif current thread
+		already has the lock. concreate implementation of lock interface. Fairness, lock interruptly, ability to timeout.
+		Drawbacks -> try/catch block. Reentrant = obtain lock multiple time.
+		
+	Timer and timer task class: Provide halp for controlling time-out based operations. Implementations make "best effort"
+		to detect time-outs. Schedule tasks. Timer tasks should not be very long. Timer is a Thread and can assign to it
+		timer tasks.
+		
+	Semaphore: Maintain all setes of permits. For example limit concurency access to certain parts. use try/finally to
+		properlyrelease the semaphore.
+		
+	Phaser: Thread synchronization mechanism. You have wait for threads to arrive before continue or start another set of 
+		tasks. 
+	
+	CountdownLatch: Allows thread to wait for one or more threads before start processing. Not reusable once count readch zero.
+	
+	CyclicBarrier: Like countdownLatch but reusable by call reset().
+	
+	Fork-joint framework: Done in-memory algorithm. Responsible to create new task object which can create subtask and wait
+		to finish them. Maintain pool and executor to task.
+		
+	Atomic variables: Get/set that work like read/write on volatile variables. Atomic = threadsafe without synchronized
+		keyword. Heavily use CAS (hardware supported)
+	
+	Concurent hashmap: Implementation of concurent map interface. Summultaniosly allow 16 thread to read/whrite without
+		external sync. Very scalable.
+	
+	CopyOnWriteArrayList: Implement List interface. Copy list each time it change. Expensive to largge lists. Ok for few 
+		modificaion with many reads. Iterators use snapshot of the array (not reflect change).
+		
+	ConcurentSkipList: Implementation of concurentNavigationalMap. Element sorted based on their natural orders keys. 
+		Allows fast search in an ordered sequence of lements. Quaranties O(logn) for msot operations.
+		
+	Blocking queue: Thread safe to insert or retrieve element from it. Block request of insert new elemnt when queue is
+		full, or remove if empty. All with timeouts. Nice way to make Producer-Costumer pattern. 
+		
+Softskill
+	
+	Kanban: WIP - work in progress unot for strategies, no rules
+	Scrum: Scrum master, dev team, product owner
+	
+	Scum: has roles, time based, ceremonies, descriptive, can be too rigid
+	Kanban: no rules, no ceremonies, only quidence, no time based.
+	
+	As D3 you have more responsibility, its is borader like L2. People management, decision making. 
+	
+	A story point consist of: Effort (hour) - Risk - Complexity; pick 1 storypoint as reference
+	
+	Time managemant technies: pomodoro technic, TODO list, Book your time in the calendar
+	
+	Delegation: not have to be done by who is delegated, needs to be done.
+ 	Assignment: Clear responsibility to who was assigned, who will do.
+	
+	Risk managemant: Spike stories, proof of concept, return of invests //TODO get some info about these
+	
+	User story: Direct, timable, testable, aceptance creteria, doable, definitaion of ready, user story format. 
