@@ -144,6 +144,22 @@ Boundary matchers
 
 Annotation 
 
+	Annotations applied to Java code:
+		@Override - Checks that the method is an override. Causes a compile error if the method is not found in one of the parent classes or implemented interfaces.
+		@Deprecated - Marks the method as obsolete. Causes a compile warning if the method is used.
+		@SuppressWarnings - Instructs the compiler to suppress the compile time warnings specified in the annotation parameters.
+		
+	Annotations applied to other annotations (also known as "Meta Annotations"):
+		@Retention - Specifies how the marked annotation is stored—Whether in code only, compiled into the class, or available at runtime through reflection.
+		@Documented - Marks another annotation for inclusion in the documentation.
+		@Target - Marks another annotation to restrict what kind of Java elements the annotation may be applied to.
+		@Inherited - Marks another annotation to be inherited to subclasses of annotated class (by default annotations are not inherited to subclasses).
+		
+	Since Java 7, three additional annotations have been added to the language.
+		@SafeVarargs - Suppress warnings for all callers of a method or constructor with a generics varargs parameter, since Java 7.
+		@FunctionalInterface - Specifies that the type declaration is intended to be a functional interface, since Java 8.
+		@Repeatable - Specifies that the annotation can be applied more than once to the same declaration, since Java 8.
+
 	Repeating annotations are supported as of the Java SE 8 release. 
 	There are several methods available in the Reflection API that can be used to retrieve annotations. 
 	It's specified by section 9.6.1 of the JLS. The annotation member types must be one of:
@@ -154,6 +170,14 @@ Annotation
 		- another Annotation
 		- an array of any of the above
 	Additional restriction : it has to be a compile-time constant. 
+	
+	Processing
+		When Java source code is compiled, annotations can be processed by compiler plug-ins called annotation processors. 
+		Processors can produce informational messages or create additional Java source files or resources, which in turn may be compiled and processed, 
+		and also modify the annotated code itself. The Java compiler conditionally stores annotation metadata in the class files, if the annotation has a 
+		RetentionPolicy of CLASS or RUNTIME. Later, the JVM or other programs can look for the metadata to determine how to interact with the program elements 
+		or change their behavior.
+		In addition to processing an annotation using an annotation processor, a Java programmer can write their own code that uses reflections to process the annotation. 
 
 Data Collections
 
@@ -748,7 +772,54 @@ General testing
 	V-model
 		- On the left-hand side of the V-model, we have activities that are not performed by the QA team.
 		- On the right-hand side, we have some of them that are taken care of the Dev team, some by the testers and some by users.
+		
+	Black box testing
+		Method of software testing that examines the functionality of an application without peering into its internal structures or workings. 
+		This method of test can be applied virtually to every level of software testing: unit, integration, system and acceptance. It is sometimes 
+		referred to as specification-based testing.
+		
+		In penetration testing, black-box testing refers to a methodology where an ethical hacker has no knowledge of the system being attacked. 
+		The goal of a black-box penetration test is to simulate an external hacking or cyber warfare attack.
+		
+	White box testing
+		 Method of testing software that tests internal structures or workings of an application, as opposed to its functionality (i.e. black-box testing). 
+		 In white-box testing an internal perspective of the system, as well as programming skills, are used to design test cases. The tester chooses inputs 
+		 to exercise paths through the code and determine the expected outputs. Can be applied at the unit, integration and system levels of the software testing process.
+		 
+	Verification
+		- Definition: The process of evaluating work-products (not the actual final product) of a development phase to determine whether they meet the specified 
+			requirements for that phase.
+		- Objective: To ensure that the product is being built according to the requirements and design specifications. In other words, to ensure that work products 
+			meet their specified requirements.
+		- Question: Are we building the product right?
+		- Evulation items: Plans, Requirement Specs, Design Specs, Code, Test Cases
+		- Activities: Reviews, Walkthroughs,Inspections
+	
+	Validation
+		- Definition: The process of evaluating software during or at the end of the development process to determine whether it satisfies specified business requirements.
+		- Objective: To ensure that the product actually meets the user’s needs and that the specifications were correct in the first place. In other words, to demonstrate 
+			that the product fulfills its intended use when placed in its intended environment.
+		- Question: Are we building the right product?
+		- Evulation items: The actual product/software.
+		- Activities: Testing
+		
+	Stub
+		I believe the biggest distinction is that a stub you have already written with predetermined behavior. So you would have a class that implements the 
+		dependency (abstract class or interface most likely) you are faking for testing purposes and the methods would just be stubbed out with set responses. 
+		They would not do anything fancy and you would have already written the stubbed code for it outside of your test.
 
+	Mock
+		A mock is something that as part of your test you have to setup with your expectations. A mock is not setup in a predetermined way so you have 
+		code that does it in your test. Mocks in a way are determined at runtime since the code that sets the expectations has to run before they do anything.
+
+	Difference
+		Tests written with mocks usually follow an initialize -> set expectations -> exercise -> verify pattern to testing. While the pre-written stub would follow an 
+		initialize -> exercise -> verify.
+
+	Similarity
+		The purpose of both is to eliminate testing all the dependencies of a class or function so your tests are more focused and simpler in what they are 
+		trying to prove.	
+		
 Refactoring
 
     Change the internal of software to make it easier to understand and cheaper to modify
