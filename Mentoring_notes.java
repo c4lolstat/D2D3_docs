@@ -419,10 +419,23 @@ OOP Fundamentals
 
     Inheritance 
         - is-a reletionship
+		
+	Association
+		defines a relationship between classes of objects that allows one object instance to cause another to perform an action on its behalf. 
+		This relationship   is structural, because   it specifies that objects of one kind are connected to objects of another and does not represent 
+		behaviour.   "sending a message", "invoking a method"   or "calling a member function"
+		a relationship where all objects have their own lifecycle and there is no owner.
+
+	Aggregation
+		A "owns" B = Composition : B has no meaning or purpose in the system without A
+		A "uses" B = Aggregation : B exists independently (conceptually) from A
+		specialised form of Association where all objects have their own lifecycle, but there is ownership and child objects can not belong to another parent object.	
     
     Composition
         - has-a relationship
         - object canhave another object as a variable
+		specialised form of Aggregation and we can call this as a “death” relationship. It is a strong type of Aggregation. Child object does not have its 
+		lifecycle and if parent object is deleted, all child objects will also be deleted.
         
     Polimorphism
         - when not important that the method belongs to a parent class or descendant
@@ -475,14 +488,7 @@ OOP Fundamentals
 	Portability
 
 	Performance 
-
-	Aggregation
-		A "owns" B = Composition : B has no meaning or purpose in the system without A
-		A "uses" B = Aggregation : B exists independently (conceptually) from A
-	
-	Association
-		defines a relationship between classes of objects that allows one object instance to cause another to perform an action on its behalf. This relationship   is structural, because   it specifies that objects of one kind are connected to objects of another and does not represent behaviour.   "sending a message", "invoking a method"   or "calling a member function"
-
+		
 	Responsibility driven design:
 		improves encapsulation by using the client–server model. It focuses on the contract by considering the actions that the object is responsible for
         and the information that the object shares. https://en.wikipedia.org/wiki/Responsibility-driven_design.  
@@ -821,6 +827,8 @@ General testing
 		trying to prove.	
 		
 Refactoring
+
+	See more on https://refactoring.guru/
 
     Change the internal of software to make it easier to understand and cheaper to modify
     without changing its observable behavier.
@@ -1168,6 +1176,40 @@ Generics
     
     Lower bound wildcards restrict the type to be type or super type. Lower bound alwys super.
 	
+	Wildcard capture
+		When a generic method is invoked, the type parameter may be chosen to match the
+		unknown type represented by a wildcard. 
+		
+		Instead, you can implement the method with the first signature by implementing a
+		private method with the second signature, and calling the second from the first:
+			public static void reverse(List<?> list) { rev(list); }
+			private static <T> void rev(List<T> list) {
+			 List<T> tmp = new ArrayList<T>(list);
+			 for (int i = 0; i < list.size(); i++) {
+			 list.set(i, tmp.get(list.size()-i-1));
+			 }
+			}
+		Here we say that the type variable T has captured the wildcard
+			
+	Get - put principle
+		The Get and Put Principle: use an extends wildcard when you only get values out of a
+		structure, use a super wildcard when you only put values into a structure, and don’t use
+		a wildcard when you both get and put.
+	
+	Bridging
+		In the case of a parameterized interface such as Compara
+		ble<T>, this may cause additional methods to be inserted by the compiler; these additional
+		methods are called bridges.
+		The bridge method is generated automatically by the compiler
+		
+	Type eresure	
+		The erasure of a type is defined as follows: drop all type parameters from parameterized types, and replace any type variable 
+		with the erasure of its bound, or with Object if it has no bound, or with the erasure of the leftmost bound if it has multiple 
+		bounds.
+
+		In Java, two distinct methods cannot have the same signature. Since generics are implemented by erasure, it also follows that 
+		two distinct methods cannot have signatures with the same erasure. 
+		
 2017-07	
 	
 Domain Driven Design
@@ -1493,6 +1535,25 @@ Java 8
 	
 	function as first class citizen: input / output, smaller code, more readable, better way to show intention.
 	
+Version Control
+	
+	Local version control, Centralized version control (SVN - store diff, CVS), Distributed Version control (GIT) 
+	
+	GIT
+		store snapshots of versions
+		do not use diff, compression instead
+		40 char long hash identifiers
+		.gitignor white vs black list
+	
+		fast forward merge
+		non-fast forward merge
+		
+		2-way merge try gues the result from 2 different version
+		3-way merge have a base version and ask what should do
+		
+		benefits
+		drawbacks
+		
 Softskill
 	
 	Kanban: WIP - work in progress unot for strategies, no rules
@@ -1501,6 +1562,60 @@ Softskill
 	Scum: has roles, time based, ceremonies, descriptive, can be too rigid
 	Kanban: no rules, no ceremonies, only quidence, no time based.
 	
+	Spiral model of SW development: incremental risk oriented lifecycle model. The Spiral model is called as a Meta Model because it subsumes all the 
+	other SDLC (SW development Life Cycle) models (waterfall, prototyping, evolutionary).
+		Phases: - Determine objectives
+				- identify and resolve risks
+				- development and test
+				- plan the next iteration
+	
+		Adventages:
+			- extensive risk analysis
+			- functionality can be added later (iterative)
+			- SW produced early
+			- Good for large and mission-critical projects.
+			
+		Didadvantages:
+			- requires expertise (risk)
+			- more complex then other models
+			- costly to implement
+			
+		 When to use Spiral model:
+			- When costs and risk evaluation is important
+			- For medium to high-risk projects
+			- Long-term project commitment unwise because of potential changes to economic priorities
+			- Users are unsure of their needs
+			- Requirements are complex
+			- New product line
+			- Significant changes are expected (research and exploration)		
+	
+	Personal software processs (https://vimeo.com/111331345):
+		Skills and work habits of engineers largely determine the result of the software process.
+		Build individual skill and discipline.
+		Identifies weakness - identifies strengths - Matches team members capabilities
+		It is not specific to any programming or design methodology; therefore it can be used with different 
+		methodologies, including Agile software development.
+		
+		The PSP helps software engineers to:
+
+			- Improve their estimating and planning skills.
+			- Make commitments they can keep.
+			- Manage the quality of their projects.
+			- Reduce the number of defects in their work.
+		The PSP has four core measures:
+
+			- Size – the size measure for a product part, such as lines of code (LOC).
+			- Effort – the time required to complete a task, usually recorded in minutes.
+			- Quality – the number of defects in the product.
+			- Schedule – a measure of project progression, tracked against planned and actual completion dates.
+
+		Three leveles:
+			level 0: current process basic measures; 0.1 coding standard, process improvement proposal
+			level 1: Size estimating, test report; 1.1 Task planning Schedule planning
+			level 2: Code reviews, design revies; 2.1 Design templates
+			
+		https://en.wikibooks.org/wiki/Introduction_to_Software_Engineering/Process/PSP
+			
 	As D3 you have more responsibility, its is borader like L2. People management, decision making. 
 	
 	A story point consist of: Effort (hour) - Risk - Complexity; pick 1 storypoint as reference
@@ -1535,3 +1650,5 @@ Softskill
 	Choosing 3rd party library: -documentation, open / licence, responsiveness of issues, bug track, how easy to use
 	
 	Estimation: tech spikes, investigation; T-shirt size for high level things.
+	
+	
