@@ -547,6 +547,10 @@ Principles of Packaging:
 			In a development cycle with multiple developers, cooperation and integration needs to happen in small incremental releases. 
 			The ADP states that there can be no cycles in the dependency structure, and that when an incremental release is made, the other 
 			developers can adopt and build upon it.
+			
+			It is in general always possible to break a cyclic dependency chain. The two most common strategies are:
+				- Dependency inversion principle
+				- Create a new package, and move the common dependencies there.
 
 		Stable-Dependencies Principle (SDP)
 			Designs, by nature of the environments they are used in or by, are changing. Thus, package design needs to support change as 
@@ -1133,6 +1137,11 @@ Clean code
     Boundaries
         - code on boundaries need clear separation and test defined expectations
         - wrap 3rd aprty code, adapter pattern
+		
+	Static vs. non-static inner classes
+		- A non-static nested class has full access to the members of the class within which it is nested. 
+		- A static nested class does not have a reference to a nesting instance, so a static nested class cannot invoke 
+			non-static methods or access non-static fields of an instance of the class within which it is nested.
     
     Unit tests
         - 3 law of TDD: 1, write failing unit test before production code
@@ -1359,6 +1368,7 @@ Multithread
 		Join method, wait 1 thread after start another.
 		
 	Syncronized: Lock object for any shared resources, auto aquires the lock and relase it. 
+		Wait, notify and notifyAll are object, so they are shared resources. Have to be in sync block.
 	
 	Volatile: Garanties visibility of changes accross threads. Prevent cashing (L2-L3)
 	
@@ -1387,19 +1397,8 @@ Multithread
 	Shutdwown hook:When VM shut down it will start all registered shutdown hook. When all finish run all uninvoked finalizers
 		(if enabled) finally halt VM. Perform cleanup resource or save state when VM shuts down normally. (strl+C, System.exit())
 		
-	Java.util.concurrent: small standardized framework. Parts: executors, queues, timing, synchronizers, collections, 
-		memory consistency properties. Used as buildong blocks for creating concurent classes or applications. Expose
-		low-level Compare-and-swap (CAS) hardware instructions.
-		
-	Executor framework: Interface for definfing cosutm thread-like subsystems. Executor service manages queues, schedule 
-		tasks and shutdown (await termination, shutdown, isShutDowns). Multiple concrate class implementatioins. Task 
-		submission is decoupled from task execution policy. Get executor through factory.
-		
 	Future pattern: Represent the result of an asyncron computation. Methods for check the computation is complate and retrive
 		result. Cancellable. Can be blocking.
-	
-	Completition service: Decouples the production of asyncron tasks from consumption of the results. Producers submit tasks,
-		consumers take completed and process their results.
 		
 	Lock: syncronization mechanism more sophistcated then synchronized blocks. It is an interface ->
 		has framework.
@@ -1408,37 +1407,11 @@ Multithread
 		already has the lock. concreate implementation of lock interface. Fairness, lock interruptly, ability to timeout.
 		Drawbacks -> try/catch block. Reentrant = obtain lock multiple time.
 		
-	Timer and timer task class: Provide halp for controlling time-out based operations. Implementations make "best effort"
-		to detect time-outs. Schedule tasks. Timer tasks should not be very long. Timer is a Thread and can assign to it
-		timer tasks.
-		
-	Semaphore: Maintain all setes of permits. For example limit concurency access to certain parts. use try/finally to
-		properlyrelease the semaphore.
-		
-	Phaser: Thread synchronization mechanism. You have wait for threads to arrive before continue or start another set of 
-		tasks. 
-	
-	CountdownLatch: Allows thread to wait for one or more threads before start processing. Not reusable once count readch zero.
-	
-	CyclicBarrier: Like countdownLatch but reusable by call reset().
-	
-	Fork-joint framework: Done in-memory algorithm. Responsible to create new task object which can create subtask and wait
-		to finish them. Maintain pool and executor to task.
-		
-	Atomic variables: Get/set that work like read/write on volatile variables. Atomic = threadsafe without synchronized
-		keyword. Heavily use CAS (hardware supported)
-	
-	Concurent hashmap: Implementation of concurent map interface. Summultaniosly allow 16 thread to read/whrite without
-		external sync. Very scalable.
-	
-	CopyOnWriteArrayList: Implement List interface. Copy list each time it change. Expensive to largge lists. Ok for few 
-		modificaion with many reads. Iterators use snapshot of the array (not reflect change).
-		
-	ConcurentSkipList: Implementation of concurentNavigationalMap. Element sorted based on their natural orders keys. 
-		Allows fast search in an ordered sequence of lements. Quaranties O(logn) for msot operations.
-		
-	Blocking queue: Thread safe to insert or retrieve element from it. Block request of insert new elemnt when queue is
-		full, or remove if empty. All with timeouts. Nice way to make Producer-Costumer pattern. 
+	Java thread dump:
+		A Java thread dump is a way of finding out what every thread in the JVM is doing at a particular point in time. 
+		This is especially useful if your Java application sometimes seems to hang when running under load, as an analysis of 
+		the dump will show where the threads are stuck. You can generate a thread dump under Unix/Linux by running kill -QUIT <pid>, 
+		and under Windows by hitting Ctl + Break.
 		
 High level concurency support
 	
@@ -1448,7 +1421,8 @@ High level concurency support
 		
 	Executor framwork: Interface for define costum thread like subsystems. Executor service maages queues, scheduling tasks
 		and shutdown. Multiple concrete executor classes. Task submission is decoupled from task execution policy.
-		Shutting down via executor service interface (await termination, isShutdown, shutdown) Get executor through factory.
+		Multiple concrate class implementatioins. Shutting down via executor service interface (await termination, isShutdown, shutdown) 
+		Get executor through factory.
 		
 	Future pattern: Represent the result of an async computation. Methods for check is the computation is complate and retrive result.
 		Cancellable, can be blocking.
@@ -1535,6 +1509,46 @@ Java 8
 	
 	function as first class citizen: input / output, smaller code, more readable, better way to show intention.
 	
+	Streams
+		- Specify what you want and leave the scheduleing of operations to the implementation.
+		- you can create streams from collections, iterators, arrays and generators.
+		- use filter to select elements and map to transform elements
+		- optain result with reduction operator, 
+		- you can collect stream results in arrays, collections, string or map
+		- there are spec stream for primitive types
+		
+		Stream vs collection: 
+			- stream does not store elements
+			- stream operations dont mutatethier source, instead they return new stream
+			- stream operations are lazy when possible, not executed until result needed
+	
+		Pipeline:
+			- you create a stream -> specify intermediat operations -> apply terminal operation to produce result
+			
+		Parallel streams
+			- as long as the stream is in parallel mode, when the terminal method executes, all lazy intermediate operations will be parallelized.
+			- important, that operations are statless and cen be executed in arbitrary order.
+			
+	Concurency
+	
+		- compareAndSet method maps to processor operation, so it is faster then lock.
+		
+		Competable Feature: Make it possible to compose async operations.
+		
+		Stamped loc: Class to implement optimistic reads. First call tryOptimisticRead, upon which you get a "stamp". Read your values and check
+			whether the the stamps still valid.	If so you can use the values, if not get a read lock.	
+		
+		LongAdder: When you have a very large number of threads accessing the same atomic values, performance suffer because the optimistic updates 
+			require too many updates. LongAdder and Long Accumulator solve the problem. A LongAdder is composed of multiple variables whose collective 
+			sum is the current value. Multiple thread can updat different summands and new summand s are automatically provided when the number of 
+			threads increases. Simply use LongAdder instead of AtomicLong.
+	
+	Date / Time
+		- use Period to advance zoned time , in order t o account daylight saving.
+	
+	Optional
+		Is a wrtapper for object T or no object at all.
+		
 Version Control
 	
 	Local version control, Centralized version control (SVN - store diff, CVS), Distributed Version control (GIT) 
@@ -1544,15 +1558,148 @@ Version Control
 		do not use diff, compression instead
 		40 char long hash identifiers
 		.gitignor white vs black list
+		
+		branching model (https://nvie.com/posts/a-successful-git-branching-model/)
 	
-		fast forward merge
-		non-fast forward merge
+		fast forward merge: move feature branch into other branch
+		non-fast forward merge: keek feature branch and add a new commit on the othre branch. causes the merge to always create a new commit object, even if the 
+			merge could be performed with a fast-forward. This avoids losing information about the historical existence of a feature branch and groups together 
+			all commits that together added the feature
 		
-		2-way merge try gues the result from 2 different version
-		3-way merge have a base version and ask what should do
+		2-way merge: only the two versions of a file are compared
+		3-way merge: A three-way merge is performed after an automated difference analysis between a file "A" and a file "B" while also considering the origin
 		
-		benefits
-		drawbacks
+		Benefits:
+			- Distributed model
+			- Branching and merging are easy
+			- Workflow is flexible
+			- Data integrity is assured
+			- Fast
+			
+		Drawbacks
+			- Steep learning curve
+			- Binary files are a big no
+		
+XML, JSON
+
+	XML
+		Namespace: XML Namespaces provide a method to avoid element name conflicts. In XML, element names are defined by the developer. This often results in a 
+			conflict when trying to mix XML documents from different XML applications.When using prefixes in XML, a namespace for the prefix must be defined.
+			The namespace can be defined by an xmlns attribute in the start tag of an element. The namespace declaration has the following syntax. 
+			xmlns:prefix="URI". The namespace URI is not used by the parser to look up information. The purpose of using an URI is to give the namespace a unique name.
+			However, companies often use the namespace as a pointer to a web page containing namespace information.
+			
+		XSD schema: An XML Schema describes the structure of an XML document. The XML Schema language is also referred to as XML Schema Definition (XSD).
+			The purpose of an XML Schema is to define the legal building blocks of an XML document:
+				- the elements and attributes that can appear in a document
+				- the number of (and order of) child elements
+				- data types for elements and attributes
+				- default and fixed values for elements and attributes
+		
+		XPath: XPath can be used to navigate through elements and attributes in an XML document.
+			- XPath is a syntax for defining parts of an XML document
+			- XPath uses path expressions to navigate in XML documents
+			- XPath contains a library of standard functions
+			- XPath is a major element in XSLT and in XQuery
+			- XPath is a W3C recommendation
+				
+	JSON
+	
+JPA
+	Relation base model convert to OOP like thingy.
+	
+	JPA (Java Persistance API) only interfaces. Hibernate is a implementation for it.
+	
+	Misconceptions 
+		- protect agains SQL injection
+		- going to solve every issue
+		- going to be effective, even you dont care
+		- silver bullett
+		
+	Entites
+		- You can map several @Entity to the same table to create supsets.
+		- @Enumerated - String -> save enum as string into db
+		- @GeneratedValue dont use auto as prim.key, use autoincrement in db.
+		- equals / hash  use primary key only
+		- toString attributes with relation
+		- avoid inheritance at any cost
+		
+	EntityManager
+		- all stuff happen through them
+		- 1st level cash- differed execution model - addig vár amig csak tud
+		- @PersistanceContext
+			private EntityManager entityManager
+
+	Transactional skópon kivűl automatikusan detachel az object. Entity csak Transactional scope ban
+	
+	JPQL: OOP way to do SQL
+	
+	Creteria API compile time type check.
+	
+Hibernate
+
+	transaction annotacio
+		@transasction - mandatory:  ha nincs transaction akkor elhal a kod
+		@transaction egy boundary-n belul > service layeren belul
+		read only flag - jdbc driver parhuzamosan tudd transactiont vegezni
+		spring kreal egy proxy-t (runtime) a transaction management kore
+		annotacio egy proxy gyakorlatilag
+
+	state transitions
+		dirty-checking even in transaction with merge()
+
+	entity association
+		lazyInitException - tranzakcion kivul hivunk relacioval kapcsolatos dolgot
+		Hibernate.initialize() - init relacios dolgokat ha lazy betoltest hasznalunk
+		JOIN FETCH - betolti a reliciot is, use case -enkent hasznalhato
+		EAGER JOIN minden alkalommal eyen a modon fog tortenni
+
+	Projections
+		simple POJO with only the necessary data for spec. use-case
+		entity  not equals projectio fe. not managed
+		spring-data only interface declaration to projection
+		important factor is memory - projection equals less memory
+		table access a leglassabb
+		index - build a tree with pointers to data sorted probably maintained in memory
+
+	Recap
+		spring data projection only latest version
+		write test and verify generated sqls
+		turn sql logging on for development
+		verify transaction boundaries
+		watch for merge calls
+
+AWS
+	Physichal infrastructure
+		- region: geography area with 2+ availability zoned
+		- availability zone is a data center
+		- edge location: content delivery network endpoint
+		
+	Storage:
+		S3 - virtual disck for objects
+		Glacier - archive, no instant access
+		
+	Database: RDS, DynamoDB, Redshift, Elasticache
+		- NoSQL: table - collection, row - document(json), data - key/value pairs 
+	
+	S3 (Simple Storage Service):
+		- Data spread accross multiple devices and facilites
+		- 0-5TB files, unlimited storage
+		- files in buckets (folder)
+		- names must be uniqe globaly
+		- Read after write for PUT new object
+		- overwrite puts and delete have the samo propagation time
+		- S3 object -> key, value, version, metadata, accesscontrol, torrent
+		- amazon garantee 99.9% availability and 11-9 durability
+		- lifecycle management, encription
+		- new buckets are private by default
+		
+	DynamoDB:
+		- 1 digit ms latancy at any scale
+		- support document and Key/value data models
+		- Stores on SSD
+		- consistency accross copies of data (3 geoloc) within 1s
+Spring
 		
 Softskill
 	
