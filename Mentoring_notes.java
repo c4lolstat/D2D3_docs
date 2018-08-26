@@ -1700,7 +1700,48 @@ AWS
 		- Stores on SSD
 		- consistency accross copies of data (3 geoloc) within 1s
 Spring
+
+	To define setup and teardown for a bean, we simply declare the <bean> with initmethod and/or destroy-method parameters. 
+	The init-method attribute specifies a method that is to be called on the bean immediately upon instantiation. Similarly, destroymethod 
+	specifies a method that is called just before a bean is removed from the container.
 		
+	Spring framework also support @PostConstruct and @PreDestroy annotations for defining post-init and pre-destroy methods. 
+	These annotations are part of javax.annotation package. However for these annotations to work, we need to configure our spring 
+	application to look for annotations. We can do this either by defining bean of type 
+	org.springframework.context.annotation.CommonAnnotationBeanPostProcessor or by context:annotation-config element in spring bean configuration file.	
+		
+	Spring framework provides the following ways which can be used to control the lifecycle of  bean:
+
+	complete lifecycle methods (from instantiate to Ready To use )Spring Bean Life Cycle
+	
+		Instantiate -> 
+		populate properties -> 
+		call setBeanName() method of BeanAware -> 
+		call setBeanFactory() -> 
+		call sestApplicationContext() -> 
+		PreInit (Bean PostProcessor) -> 
+		afterPropertySet() of  InitializingBeann -> 
+		custom init method -> 
+		post initialization (Bean postprocess) ->
+		Bean ready to use
+	
+	the method calling  at the time of destruction.
+	
+		calls destroy method of disposable bean -> 
+		custom destroy method
+	
+	BeanPostProcessor interface: defines callback methods that you can implement to provide your own instantiation logic, dependency-resolution logic, etc. 
+		You can also implement some custom logic after the Spring container finishes instantiating, configuring, and initializing a bean by plugging in one or 
+		more BeanPostProcessor implementations. You can configure multiple BeanPostProcessor interfaces and you can control the order in which these 
+		BeanPostProcessor interfaces execute by setting the order property provided the BeanPostProcessor implements the Ordered interface.
+
+		The BeanPostProcessors operate on bean (or object) instances, which means that the Spring IoC container instantiates a bean instance and then 
+		BeanPostProcessor interfaces do their work.
+
+		An ApplicationContext automatically detects any beans that are defined with the implementation of the BeanPostProcessor interface and registers 
+		these beans as postprocessors, to be then called appropriately by the container upon bean creation.	
+	IoC
+	
 Softskill
 	
 	Kanban: WIP - work in progress unot for strategies, no rules
