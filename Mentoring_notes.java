@@ -1712,7 +1712,7 @@ Spring
 		
 	Spring framework provides the following ways which can be used to control the lifecycle of  bean:
 
-	complete lifecycle methods (from instantiate to Ready To use )Spring Bean Life Cycle
+	Complete lifecycle methods (from instantiate to Ready To use )Spring Bean Life Cycle
 	
 		Instantiate -> 
 		populate properties -> 
@@ -1725,7 +1725,7 @@ Spring
 		post initialization (Bean postprocess) ->
 		Bean ready to use
 	
-	the method calling  at the time of destruction.
+	The method calling  at the time of destruction.
 	
 		calls destroy method of disposable bean -> 
 		custom destroy method
@@ -1741,6 +1741,22 @@ Spring
 		An ApplicationContext automatically detects any beans that are defined with the implementation of the BeanPostProcessor interface and registers 
 		these beans as postprocessors, to be then called appropriately by the container upon bean creation.	
 	IoC
+	
+	DI
+		must have dependencies goes to the constructor
+		optional dependencies property injection
+		
+	BeanFactory: represents the Spring IoC container, it contains the managed beans and provides access to retrieving them. It is part of the core of the framework
+		which implements the base functionality of an inversion of control container.	
+	
+	FactoryBean: A FactoryBean is an interface that you, as a developer, implements when writing factory classes and you want the object created by the factory 
+		to be managed as a bean by Spring
+	
+	Prototype scope: Scopes a single bean definition to any number of object instances. results in the creation of a new bean instance every time a request
+		for that specific bean is made (that is, it is injected into another bean or it is requested via a programmatic getBean() 
+		method call on the container). As a rule of thumb, you should use the prototype scope for all beans that are stateful, while the singleton 
+		scope should be used for stateless beans. Spring does not manage the complete lifecycle of a prototype bean: the container instantiates, configures, 
+		decorates and otherwise assembles a prototype object, hands it to the client and then has no further knowledge of that prototype instance.
 	
 Softskill
 	
